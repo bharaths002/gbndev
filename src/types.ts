@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 export interface NavItem {
   label: string;
@@ -7,8 +7,9 @@ export interface NavItem {
 
 export interface Feature {
   title: string;
-  description: string;
+  description: string | ReactNode;
   icon: ReactNode;
+  image: string;
 }
 
 export interface StoryChapter {
@@ -19,6 +20,6 @@ export interface StoryChapter {
 }
 
 export interface ChatMessage {
-  role: 'user' | 'model';
+  role: "user" | "model";
   text: string;
 }
