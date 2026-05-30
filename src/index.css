@@ -1,17 +1,90 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
+
+/* html {
+  scroll-behavior: smooth;
+} */
+
+/* Custom styles */
+/* body {
+  background-color: #fcfcfd;
+  color: #1a1a1c;
+  overflow-x: hidden;
+  letter-spacing: -0.01em;
+} */
+
+/* .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+} */
+
+/* .reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+} */
+
+/* .glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+} */
+
+/* .text-gradient {
+  background: linear-gradient(to right, #1a1a1c, #4a90e2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+} */
+
+
+
+
+
+
+@import "tailwindcss";
+@theme {
+  --font-serif: "Crimson Pro", "Playfair Display", serif;
+  --font-sans: "Inter", "Helvetica Neue", sans-serif;
+
+  /* Main site colors */
+  --color-obsidian: #1a1a1c;
+  --color-bone: #fcfcfd;
+  --color-crystal: #4a90e2;
+  --color-silver: #f1f3f5;
+
+  /* Testimonials page colors */
+  --color-editorial-bg: #111010;
+  --color-editorial-paper: #fdfaf6;
+  --color-editorial-text: #2c2422;
+  --color-editorial-accent: #8c7b6e;
+  --color-editorial-gold: #c9a84c;
+
+  /* Animations */
+  --animate-fade-in: fadeIn 1s ease-out forwards;
+  --animate-slide-up: slideUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
 
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom styles */
 body {
   background-color: #fcfcfd;
   color: #1a1a1c;
   overflow-x: hidden;
   letter-spacing: -0.01em;
+  font-family: var(--font-sans);
 }
 
 .reveal {

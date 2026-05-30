@@ -15,6 +15,11 @@ export default {
         bone: '#fcfcfd',
         crystal: '#4a90e2',
         silver: '#f1f3f5',
+        'editorial-paper': '#fdfaf6',
+        'editorial-text': '#2c2422',
+        'editorial-accent': '#8c7b6e',
+        'editorial-gold': '#c9a84c',
+        'editorial-bg': '#111010',
       },
       animation: {
         'fade-in': 'fadeIn 1s ease-out forwards',
