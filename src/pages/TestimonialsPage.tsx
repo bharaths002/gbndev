@@ -1,7 +1,6 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
-import HTMLFlipBook from 'react-pageflip';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, BookOpen, Feather, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 interface PortfolioItem {
   id: string;
@@ -16,482 +15,198 @@ const portfolioData: PortfolioItem[] = [
     id: '1',
     title: 'Hotdesk Production',
     category: 'Theatrical Production',
-    content: "“All the world’s a stage,” and Glassbones believes every voice deserves a performance space on it. Through rooted dramas, localized adaptations, and contemporary storytelling, we are on a mission to spotlight diverse forms of theatre that emerge from lived experiences and local cultures.",
+    content:
+      '"All the world\'s a stage," and Glassbones believes every voice deserves a performance space on it. Through rooted dramas, localized adaptations, and contemporary storytelling, we are on a mission to spotlight diverse forms of theatre that emerge from lived experiences and local cultures.',
     image: '/images/HD1.jpeg',
   },
   {
     id: '2',
     title: 'Pen Your Tale',
     category: 'Theatrical Production',
-    content: "As a part of Pen Your Tale, Glassbones also conducts theatre training programmes for schools and colleges, nurturing young performers, writers, and storytellers. Through workshops, interactive sessions, and performance-based learning, we encourage students to explore creativity, confidence, collaboration, and self-expression, ensuring that the world’s stage continues to welcome many more enactments and narratives.",
+    content:
+      'As a part of Pen Your Tale, Glassbones also conducts theatre training programmes for schools and colleges, nurturing young performers, writers, and storytellers. Through workshops, interactive sessions, and performance-based learning, we encourage students to explore creativity, confidence, collaboration, and self-expression, ensuring that the world\'s stage continues to welcome many more enactments and narratives.',
     image: '/images/HD2.jpeg',
   },
   {
     id: '3',
     title: 'Short and Sweet Festival',
-    category: 'Theatrical Production ',
-    content: "Recently, Glassbones Creative team produced the theatrical production Hotdesk and staged it at the esteemed Alliance Française of Madras as part of the Short and Sweet Theatre Festival. The production reflects our commitment to creating meaningful and engaging theatre experiences that resonate with contemporary audiences while remaining deeply rooted in local realities.",
+    category: 'Theatrical Production',
+    content:
+      'Recently, Glassbones Creative team produced the theatrical production Hotdesk and staged it at the esteemed Alliance Française of Madras as part of the Short and Sweet Theatre Festival. The production reflects our commitment to creating meaningful and engaging theatre experiences that resonate with contemporary audiences while remaining deeply rooted in local realities.',
     image: '/images/HD3.jpeg',
+  },
+  {
+    id: '4',
+    title: 'Future Horizons',
+    category: 'Theatrical Production',
+    content:
+      'Expanding beyond standard stages, this upcoming chapter dives into alternative performance spaces. By intersecting raw local texts with modern physical installations, Glassbones explores how environments shape the depth of character performance and audience intimacy.',
+    image: '/images/HD4.jpeg',
+  },
+  {
+    id: '5',
+    title: 'Cultural Echoes',
+    category: 'Theatrical Production',
+    content:
+      'A collaborative showcase tying folklore directly to contemporary scripts. This initiative bridges forgotten regional oral historical perspectives into sharp structural modern staging layouts, ensuring ancestral narratives thrive cleanly inside global spaces.',
+    image: '/images/HD5.jpeg',
   },
 ];
 
-const BOOK_PAGE_WIDTH = 540;
-const BOOK_PAGE_HEIGHT = 660;
-
-const PageCover = ({ title, subtitle }: { title: string; subtitle: string }) => (
-  <div className="page page-cover bg-[#1B3A6B] h-full shadow-2xl flex flex-col items-center justify-between py-12 px-10 relative overflow-hidden thick-cover-left w-full">
-    <div className="absolute inset-5 border border-[#D4AF37]/60 pointer-events-none" />
-    <div className="absolute inset-6 border-2 border-[#D4AF37]/80 pointer-events-none" />
-    <div className="text-center z-10 my-auto w-full px-4">
-      <h2 className="text-2xl md:text-3xl font-sans tracking-tight text-[#D4AF37] font-bold uppercase mb-2 drop-shadow-sm">
-        {title}
-      </h2>
-<p className="text-sm font-sans uppercase tracking-[0.5em] text-white/90 font-semibold drop-shadow-sm">
-  {subtitle}
-</p>
-    </div>
-    <div className="z-10 w-full text-center mt-auto">
-      <div className="flex items-center justify-center gap-2 mb-1">
-        <Feather size={16} className="text-[#D4AF37]" />
-        <span className="text-[17px] font-sans font-semibold uppercase tracking-[0.3em] text-white/80">Volume I</span>
-      </div>
-      <div className="font-serif text-[#D4AF37]/90 italic text-xl">Glassbones Creative </div>
-    </div>
-  </div>
-);
-
-const TableOfContents = () => (
-  <div className="page bg-[#EFECE3] flex flex-col p-10 h-full relative border-r border-black/[0.06] w-full">
-    <div className="spine-gradient-left" />
-    <h3 className="text-xs font-sans uppercase tracking-[0.4em] text-gray-500 mb-8 font-bold border-b border-black/5 pb-3">Index of Works</h3>
-    <div className="space-y-6 flex-1">
-      <div className="group cursor-pointer">
-        <div className="flex items-baseline gap-2 mb-1">
-          <span className="text-xs font-sans text-gray-400 font-bold">01</span>
-          <h4 className="text-base font-serif text-[#1F2937] font-bold group-hover:text-amber-800 transition-colors">
-            The Hotdesk
-          </h4>
-          <div className="flex-1 border-b border-black/10 border-dotted mb-1" />
-        </div>
-      </div>
-    </div>
-    <div className="mt-auto pt-2 text-[10px] font-sans uppercase tracking-widest text-gray-400 font-bold">
-      Glassbones Creative © 2026
-    </div>
-  </div>
-);
-
-// Renders on the RIGHT side of a spread
-const RightPageImage = ({ item, isFirstImage }: { item: PortfolioItem; isFirstImage: boolean }) => (
-  <div className="page bg-[#EFECE3] flex flex-col justify-center p-6 h-full relative border-l border-black/[0.06] w-full">
-    <div className="spine-gradient-right" />
-    <div className="w-full h-full relative overflow-hidden rounded-xs border border-black/5 shadow-xs flex items-center justify-center bg-black/[0.03]">
-      {item.image ? (
-        <img
-          src={item.image}
-          alt={item.title}
-          className="w-full h-full object-cover filter contrast-[1.01] opacity-95"
-        />
-      ) : (
-        <div className="text-center p-4 border-2 border-dashed border-black/10 m-4 flex-1 h-[calc(100%-32px)] flex flex-col justify-center items-center">
-          <Feather size={18} className="text-gray-300 mb-2" />
-          <p className="text-xs font-sans uppercase text-gray-400 tracking-wider">Image Placeholder</p>
-        </div>
-      )}
-      {isFirstImage && (
-        <div className="absolute bottom-4 right-4 bg-[#EFECE3]/95 backdrop-blur-sm py-1.5 px-3.5 rounded-xs border border-black/5 z-10">
-          <p className="text-[10px] font-sans uppercase tracking-widest text-[#1F2937] font-bold">The HotDesk</p>
-        </div>
-      )}
-    </div>
-  </div>
-);
-
-// Renders on the LEFT side of a spread (the back side of the image)
-const LeftPageContent = ({ item }: { item: PortfolioItem }) => (
-  <div className="page bg-[#EFECE3] flex flex-col justify-between p-10 md:p-12 h-full relative border-r border-black/[0.06] w-full">
-    <div className="spine-gradient-left" />
-    <div className="flex flex-col flex-1 justify-center py-4">
-      <div className="flex justify-between items-center mb-6 border-b border-black/5 pb-2">
-        <span className="text-xs font-sans tracking-[0.2em] uppercase text-gray-400 font-bold">
-          {item.category}
-        </span>
-      </div>
-      <h3 className="text-xl md:text-2xl font-serif text-gray-900 font-bold leading-tight mb-6">
-        {item.title}
-      </h3>
-      <div className="pl-0 my-4">
-        <p className="text-sm md:text-base font-serif leading-loose text-gray-700 text-justify tracking-wide">
-          {item.content}
-        </p>
-      </div>
-    </div>
-    <div className="pt-4 border-t border-black/5 mt-auto flex justify-between items-center">
-      <span className="text-xs font-serif text-gray-400 italic">Glassbones creative</span>
-      <span className="text-xs font-sans text-gray-400 font-bold">0{item.id}</span>
-    </div>
-  </div>
-);
-
-const StayTunedPage = () => (
-  <div className="page bg-[#EFECE3] flex flex-col items-center justify-center p-6 h-full relative border-l border-black/[0.06] w-full">
-    <div className="spine-gradient-right" />
-    <div className="text-center max-w-sm px-4">
-      <Feather size={24} className="text-amber-800/40 mx-auto mb-4" />
-      <h3 className="text-xl md:text-2xl font-serif italic text-gray-800 mb-3 tracking-wide font-medium">
-        Stay tuned....
-      </h3>
-      <p className="text-xs font-sans uppercase tracking-[0.2em] text-amber-800 font-bold">
-        More Stories Await!
-      </p>
-      <div className="w-12 h-[1px] bg-black/10 mx-auto mt-6" />
-    </div>
-  </div>
-);
-
-const BackCover = () => (
-  <div className="page bg-[#1B3A6B] h-full flex flex-col items-center justify-center p-8 text-white text-center thick-cover-right relative w-full">
-    <div className="absolute inset-5 border border-[#D4AF37]/40 pointer-events-none" />
-    <div className="absolute inset-6 border-2 border-[#D4AF37]/50 pointer-events-none" />
-    <div className="z-10 w-full flex flex-col items-center">
-      <div className="w-10 h-10 mb-3 flex items-center justify-center border border-[#D4AF37]/30 rounded-full bg-[#122a55]">
-        <BookOpen size={14} className="text-[#D4AF37]" />
-      </div>
-      <h3 className="text-2xl md:text-3xl font-serif italic text-[#D4AF37] mb-4 tracking-wide font-semibold">
-        Glassbones Creative 
-      </h3>
-      <div className="w-12 h-[1px] bg-[#D4AF37]/30 mb-4" />
-      <div className="flex flex-col gap-1 text-[10px] font-sans text-white/50">
-        <span className="text-[15px] uppercase tracking-[0.4em] text-[#D4AF37]/60 mb-1 font-bold">Inquiries</span>
-  <a
-  href="mailto:glassbonescreative@gmail.com?subject=Inquiry from Website&body=Hello GlassBones Creative,"
-  className="hover:text-[#D4AF37] transition-colors text-base md:text-lg font-mono tracking-normal text-white"
->
-  glassbonescreative@gmail.com
-</a>
-      </div>
-    </div>
-  </div>
-);
-
-function useBookScale(isPortrait: boolean) {
-  const [scale, setScale] = useState(1);
-
-  useEffect(() => {
-    const HEADER = 64;
-    const FOOTER = 56;
-    const PADDING_V = 24;
-    const PADDING_H = 16;
-
-    function compute() {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-
-      const availH = vh - HEADER - FOOTER - PADDING_V;
-      const bookW = isPortrait ? BOOK_PAGE_WIDTH : BOOK_PAGE_WIDTH * 2;
-      const bookH = BOOK_PAGE_HEIGHT;
-
-      const arrowRoom = vw >= 1024 ? 140 : 0;
-      const availW = vw - PADDING_H - arrowRoom;
-
-      const scaleW = availW / bookW;
-      const scaleH = availH / bookH;
-
-      const s = Math.min(scaleW, scaleH, 1);
-      setScale(Math.max(s, 0.22));
-    }
-
-    let timer: NodeJS.Timeout;
-    const handleResize = () => {
-      clearTimeout(timer);
-      timer = setTimeout(compute, 60);
-    };
-
-    compute();
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      clearTimeout(timer);
-    };
-  }, [isPortrait]);
-
-  return scale;
-}
-
 export default function TestimonialsPage() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isPortrait, setIsPortrait] = useState(false);
-  const flipBookRef = useRef<any>(null);
-
-  useEffect(() => {
-    const check = () => setIsPortrait(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  const scale = useBookScale(isPortrait);
-
-  const onPage = useCallback((e: any) => {
-    setCurrentPage(e.data);
-  }, []);
-
-  const next = () => flipBookRef.current?.pageFlip?.().flipNext();
-  const prev = () => flipBookRef.current?.pageFlip?.().flipPrev();
-
-  const totalPagesCount = portfolioData.length * 2 + 4;
-
-  const isFrontPage = currentPage === 0;
-  const isLastPage = currentPage >= totalPagesCount - 1;
-
-  const nativeW = isPortrait ? BOOK_PAGE_WIDTH : BOOK_PAGE_WIDTH * 2;
-  const nativeH = BOOK_PAGE_HEIGHT;
-
-  const scaledW = nativeW * scale;
-  const scaledH = nativeH * scale;
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
-    <div
-      className="h-screen w-screen flex flex-col select-none overflow-hidden relative"
-      style={{ backgroundColor: '#f3f4f6' }}
-    >
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[75%] bg-black/[0.02] blur-3xl rounded-full pointer-events-none" />
+    <div className="bg-bone min-h-screen text-obsidian font-serif selection:bg-amber-100 selection:text-amber-900 relative">
 
-      {/* ── Navbar ──────────────────────────────────────────────────────────── */}
-      <header
-        className="w-full h-16 flex items-center justify-between px-4 sm:px-8 md:px-12 border-b border-black/10 z-30 flex-shrink-0"
-        style={{ backgroundColor: '#f3f4f6' }}
-      >
-        <div className="flex items-center space-x-3 min-w-0">
-          <div className="relative w-9 h-9 flex-shrink-0 rounded-lg overflow-hidden">
+      {/* ── CUSTOM MINIMAL HEADER ───────────────────────────────────────── */}
+      <header className="sticky top-0 bg-bone/80 backdrop-blur-md border-b border-black/5 z-40 h-20 flex items-center justify-between px-6 md:px-16">
+        {/* Logo */}
+        <div className="flex items-center space-x-3 min-w-0 flex-1">
+          <div className="relative w-9 h-9 md:w-10 md:h-10 rounded-lg overflow-hidden flex-shrink-0 bg-black/5">
             <img src="/Glass.png" alt="Glassbones Logo" className="w-full h-full object-contain" />
           </div>
-          <span className="text-2xl md:text-3xl font-serif tracking-tight text-[#1a1a2e]">
-            Glassbones Creative 
+          <span className="text-2xl md:text-3xl font-serif tracking-tight text-obsidian whitespace-nowrap">
+            Glassbones Creative
           </span>
         </div>
+
+        {/* Back to Site */}
         <a
           href="/"
-          className="flex items-center gap-1.5 text-xs lg:text-sm uppercase tracking-widest text-[#1a1a2e]/80 hover:text-[#1a1a2e] font-medium transition-all duration-300 relative group whitespace-nowrap ml-4"
+          className="flex items-center gap-2 text-xs uppercase tracking-widest font-sans font-semibold text-obsidian/50 hover:text-obsidian transition-all relative group flex-shrink-0 ml-4"
         >
-          <ArrowLeft size={12} />
-          <span className="hidden sm:inline">Back to Site</span>
-          <span className="absolute -bottom-1 left-0 w-0 h-px bg-amber-800 transition-all duration-300 group-hover:w-full" />
+          <ArrowLeft size={20} className="md:w-3.5 md:h-3.5" />
+          <span className="hidden md:inline">Back to Site</span>
+          <span className="absolute -bottom-1 left-0 w-0 h-px bg-obsidian transition-all duration-300 group-hover:w-full hidden md:block" />
         </a>
       </header>
 
-      {/* ── Main Canvas ─────────────────────────────────────────────────────── */}
-      <main
-        className="flex-1 w-full flex items-center justify-center p-2 relative z-20 overflow-hidden"
-        style={{ backgroundColor: '#ffffff' }}
-      >
-        <div className="relative flex items-center justify-center w-full h-full max-w-7xl mx-auto">
+      {/* ── HERO BANNER ────────────────────────────────────────────────────── */}
+      <section className="pt-8 pb-12 md:pt-14 md:pb-20 text-center max-w-3xl mx-auto px-6 border-b border-black/5">
+        <span className="text-xs font-sans tracking-[0.4em] uppercase text-crystal font-bold mb-4 block">
+          Portfolio Anthology
+        </span>
+        <h1 className="text-4xl md:text-6xl font-serif tracking-tight font-black mb-6 text-obsidian leading-tight">
+          Our Shared Works
+        </h1>
+        <p className="text-base md:text-lg text-obsidian/60 leading-relaxed font-sans max-w-2xl mx-auto">
+          Explore our collection of theatrical creations, local script workshops, and narrative
+          projects shaped carefully for current generations.
+        </p>
+      </section>
 
-          {/* Left Arrow */}
-          <button
-            onClick={prev}
-            disabled={isFrontPage}
-            aria-label="Previous page"
-            className="hidden lg:flex absolute z-40 items-center justify-center w-11 h-11 rounded-full border border-black/5 bg-white shadow-sm transition-all disabled:opacity-0 disabled:pointer-events-none"
-            style={{
-              left: `calc(50% - ${scaledW / 2}px - 64px)`,
-              color: 'rgba(26,26,46,0.4)',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#1a1a2e'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(26,26,46,0.4)'; }}
-          >
-            <ChevronLeft size={20} strokeWidth={1.5} />
-          </button>
-
-          {/* ── Book Wrapper ──────────────────────────────────────────────── */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key="magazine-canvas"
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center justify-center overflow-visible"
-              style={{
-                width: scaledW,
-                height: scaledH,
-                position: 'relative',
-              }}
+      {/* ── PORTFOLIO ARTICLES ─────────────────────────────────────────────── */}
+      <main className="max-w-5xl mx-auto px-6 py-16 md:py-24 space-y-24 md:space-y-36">
+        {portfolioData.map((item, index) => {
+          const isEven = index % 2 === 0;
+          return (
+            <motion.article
+              key={item.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className={`flex flex-col gap-8 md:gap-16 items-center ${
+                isEven ? 'md:flex-row' : 'md:flex-row-reverse'
+              }`}
             >
+              {/* Image */}
               <div
-                key={`${isPortrait}-${scale}`}
-                style={{
-                  width: nativeW,
-                  height: nativeH,
-                  transform: `scale(${scale})`,
-                  transformOrigin: 'center center',
-                }}
-                className="flex items-center justify-center"
+                className="w-full md:w-1/2 aspect-[4/3] md:aspect-[16/13] relative overflow-hidden bg-silver/30 rounded-2xl border border-black/5 shadow-sm group cursor-pointer"
+                onMouseEnter={() => setHoveredId(item.id)}
+                onMouseLeave={() => setHoveredId(null)}
               >
-                {/* @ts-ignore */}
-                <HTMLFlipBook
-                  width={BOOK_PAGE_WIDTH}
-                  height={BOOK_PAGE_HEIGHT}
-                  size="fixed"
-                  minWidth={BOOK_PAGE_WIDTH}
-                  maxWidth={BOOK_PAGE_WIDTH}
-                  minHeight={BOOK_PAGE_HEIGHT}
-                  maxHeight={BOOK_PAGE_HEIGHT}
-                  maxShadowOpacity={0.08}
-                  showCover={true}
-                  mobileScrollSupport={true}
-                  onFlip={onPage}
-                  className="magazine-flipbook"
-                  ref={flipBookRef}
-                  startPage={currentPage < totalPagesCount ? currentPage : 0}
-                  drawShadow={true}
-                  flippingTime={600}
-                  usePortrait={isPortrait}
-                  startZIndex={1}
-                  autoSize={false}
-                  clickEventForward={true}
-                  useMouseEvents={true}
-                  swipeDistance={15}
-                  showPageCorners={false}
-                  disableFlipByClick={false}
-                >
-                  {/* SPREAD 1: Cover (Left) & Index (Right) */}
-                  <div className="w-full h-full"><PageCover title="Our Works" subtitle="Theatre & Production Edition" /></div>
-                  <div className="w-full h-full"><TableOfContents /></div>
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-black/10 p-6">
+                    <p className="text-xs font-sans uppercase text-obsidian/30 tracking-wider">
+                      Image Placeholder
+                    </p>
+                  </div>
+                )}
 
-                  {/* SPREAD 2: HD1 Image (Right Side of Index) & Backside Content 1 */}
-                  <div className="w-full h-full"><RightPageImage item={portfolioData[0]} isFirstImage={true} /></div>
-                  <div className="w-full h-full"><LeftPageContent item={portfolioData[0]} /></div>
+                {/* Overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-obsidian/20 via-transparent to-transparent pointer-events-none rounded-2xl" />
 
-                  {/* SPREAD 3: HD2 Image (Right Side of Content 1) & Backside Content 2 */}
-                  <div className="w-full h-full"><RightPageImage item={portfolioData[1]} isFirstImage={false} /></div>
-                  <div className="w-full h-full"><LeftPageContent item={portfolioData[1]} /></div>
-
-                  {/* SPREAD 4: HD3 Image (Right Side of Content 2) & Backside Content 3 */}
-                  <div className="w-full h-full"><RightPageImage item={portfolioData[2]} isFirstImage={false} /></div>
-                  <div className="w-full h-full"><LeftPageContent item={portfolioData[2]} /></div>
-
-                  {/* SPREAD 5: Stay Tuned & Back Cover */}
-                  <div className="w-full h-full"><StayTunedPage /></div>
-                  <div className="w-full h-full"><BackCover /></div>
-                </HTMLFlipBook>
+                {/* Category pill on hover */}
+                <AnimatePresence>
+                  {hoveredId === item.id && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute bottom-4 right-4 bg-crystal text-white text-[10px] font-sans font-bold uppercase tracking-widest px-3 py-1.5 rounded-full"
+                    >
+                      {item.category}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </motion.div>
-          </AnimatePresence>
 
-          {/* Right Arrow */}
-          <button
-            onClick={next}
-            disabled={isLastPage}
-            aria-label="Next page"
-            className="hidden lg:flex absolute z-40 items-center justify-center w-11 h-11 rounded-full border border-black/5 bg-white shadow-sm transition-all disabled:opacity-0 disabled:pointer-events-none"
-            style={{
-              right: `calc(50% - ${scaledW / 2}px - 64px)`,
-              color: 'rgba(26,26,46,0.4)',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#1a1a2e'; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(26,26,46,0.4)'; }}
-          >
-            <ChevronRight size={20} strokeWidth={1.5} />
-          </button>
-        </div>
-
-        {/* Mobile touch navigation layer */}
-        <div className="lg:hidden absolute inset-x-0 bottom-4 flex justify-between px-6 z-40 pointer-events-none">
-          <button
-            onClick={prev}
-            disabled={isFrontPage}
-            className="pointer-events-auto w-10 h-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-xs border border-black/10 shadow-md disabled:opacity-0 transition-opacity"
-            style={{ color: 'rgba(26,26,46,0.6)' }}
-          >
-            <ChevronLeft size={18} strokeWidth={2} />
-          </button>
-          <button
-            onClick={next}
-            disabled={isLastPage}
-            className="pointer-events-auto w-10 h-10 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-xs border border-black/10 shadow-md disabled:opacity-0 transition-opacity"
-            style={{ color: 'rgba(26,26,46,0.6)' }}
-          >
-            <ChevronRight size={18} strokeWidth={2} />
-          </button>
-        </div>
+              {/* Content */}
+              <div className="w-full md:w-1/2 flex flex-col justify-center">
+                <span className="text-xs font-sans font-bold uppercase tracking-[0.25em] text-crystal/80 mb-2">
+                  {item.category}
+                </span>
+                <h2 className="text-2xl md:text-3xl font-bold text-obsidian mb-4 leading-tight">
+                  {item.title}
+                </h2>
+                <div className="w-10 h-0.5 bg-crystal/40 rounded-full mb-5" />
+                <p className="text-sm md:text-base text-obsidian/60 font-sans leading-loose tracking-wide text-justify">
+                  {item.content}
+                </p>
+              </div>
+            </motion.article>
+          );
+        })}
       </main>
 
-      {/* ── Footer ──────────────────────────────────────────────────────────── */}
-      <footer
-        className="h-14 w-full flex items-center justify-center border-t border-black/5 space-x-4 sm:space-x-6 z-30 flex-shrink-0"
-        style={{ backgroundColor: '#f3f4f6' }}
-      >
-        <div className="flex space-x-2">
-          {Array.from({ length: Math.ceil(totalPagesCount / 2) }).map((_, i) => (
-            <div
-              key={i}
-              className="w-1.5 h-1.5 rounded-full transition-all duration-300"
-              style={{
-                backgroundColor: Math.floor(currentPage / 2) === i ? '#1a1a2e' : 'rgba(0,0,0,0.1)',
-                transform: Math.floor(currentPage / 2) === i ? 'scale(1.15)' : 'scale(1)',
-              }}
-            />
-          ))}
+      {/* ── FOOTER ─────────────────────────────────────────────────────────── */}
+      <footer className="py-12 border-t border-black/5 bg-bone">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+
+          {/* Logo */}
+          <div className="text-xl font-serif font-bold tracking-tight">
+            GLASSBONES CREATIVE
+          </div>
+
+          {/* Navigation */}
+          <div className="flex gap-10 text-xs uppercase tracking-widest text-obsidian/50">
+            <a href="/#services" className="hover:text-obsidian transition-colors duration-300">
+              Services
+            </a>
+            <a href="/#contact" className="hover:text-obsidian transition-colors duration-300">
+              Contact
+            </a>
+          </div>
+
+          {/* Copyright */}
+          <p className="text-xs text-obsidian/30 hover:text-obsidian transition-colors duration-300 uppercase tracking-[0.2em] font-medium md:self-center">
+            &copy; 2026 Glassbones Creative . Built for Clarity.
+          </p>
+
         </div>
-        <span
-          className="hidden sm:block font-bold uppercase"
-          style={{
-            fontSize: '10px',
-            letterSpacing: '0.2em',
-            color: 'rgba(26,26,46,0.3)',
-            fontFamily: 'Georgia, "Times New Roman", serif',
-          }}
-        >
-          Swipe or use arrows to read
-        </span>
       </footer>
 
-      <style>{`
-        .magazine-flipbook {
-          background: transparent;
-          perspective: 3000px;
-          touch-action: pan-y !important; 
-        }
-        .page {
-          box-sizing: border-box;
-          height: 100%;
-          width: 100%;
-          overflow: hidden;
-          /* Anti-blur rendering optimizations for 3D pageFlip transforms */
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-          transform: translate3d(0, 0, 0);
-          -webkit-transform: translate3d(0, 0, 0);
-          transform-style: preserve-3d;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-        .thick-cover-left,
-        .thick-cover-right {
-          box-shadow:
-            inset -15px 0 30px rgba(0,0,0,0.25),
-            0 4px 24px rgba(0,0,0,0.12) !important;
-          z-index: 10;
-        }
-        .spine-gradient-left {
-          position: absolute;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          width: 20px;
-          background: linear-gradient(to left, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
-          pointer-events: none;
-        }
-        .spine-gradient-right {
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          width: 20px;
-          background: linear-gradient(to right, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.01) 60%, transparent 100%);
-          pointer-events: none;
-        }
-      `}</style>
+      {/* ── FLOATING WHATSAPP — always visible ─────────────────────────────── */}
+      <a
+        href="https://wa.me/919360460661?text=Greetings%20from%20Glassbones!%20What%20can%20we%20help%20you%20with%3F"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-110 transition-all duration-300"
+      >
+        <svg viewBox="0 0 24 24" className="w-7 h-7 fill-current">
+          <path d="M20.52 3.48A11.91 11.91 0 0012.01 0C5.38 0 .01 5.37.01 12c0 2.12.55 4.2 1.6 6.03L0 24l6.14-1.61A11.94 11.94 0 0012.01 24C18.63 24 24 18.63 24 12a11.9 11.9 0 00-3.48-8.52zM12.01 21.8a9.8 9.8 0 01-5-1.38l-.36-.21-3.64.96.97-3.54-.23-.37A9.8 9.8 0 1121.8 12c0 5.4-4.39 9.8-9.79 9.8zm5.66-7.34c-.31-.16-1.83-.9-2.11-1-.28-.1-.48-.16-.68.16-.2.31-.78 1-.96 1.2-.18.2-.36.22-.67.08-.31-.16-1.31-.48-2.49-1.54-.92-.82-1.54-1.84-1.72-2.15-.18-.31-.02-.48.14-.64.14-.14.31-.36.46-.54.16-.18.2-.31.31-.51.1-.2.05-.38-.03-.54-.08-.16-.68-1.64-.93-2.25-.24-.58-.49-.5-.68-.51h-.58c-.2 0-.52.08-.79.38-.27.31-1.04 1.02-1.04 2.49s1.07 2.9 1.22 3.1c.16.2 2.1 3.21 5.08 4.5.71.31 1.26.49 1.69.62.71.22 1.36.19 1.87.12.57-.08 1.83-.75 2.09-1.47.26-.72.26-1.34.18-1.47-.08-.13-.28-.2-.59-.36z" />
+        </svg>
+      </a>
     </div>
   );
 }
