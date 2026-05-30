@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { NAV_LINKS } from "../constants";
 import logo from "/Glass.png";
+import { Link } from "react-router-dom";
+
 
 const ALLOWED_LINKS = ["Home", "About Us", "Our Services"];
 
@@ -80,14 +82,15 @@ const Navbar = () => {
   ))}
 
   {/* Testimonials */}
-  <a
+  <Link to="/testimonials">
+
     href="/testimonials"
 
     className="text-xs lg:text-sm uppercase tracking-widest text-obsidian/80 hover:text-obsidian font-medium transition-all duration-300 relative group whitespace-nowrap"
-  >
+ 
     Testimonials
     <span className="absolute -bottom-1 left-0 w-0 h-px bg-crystal transition-all duration-300 group-hover:w-full" />
-  </a>
+   </Link>
 
   <a
     href="#contact"
