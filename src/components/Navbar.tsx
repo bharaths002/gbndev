@@ -82,15 +82,13 @@ const Navbar = () => {
   ))}
 
   {/* Testimonials */}
-  <Link to="/testimonials">
-
-    href="/testimonials"
-
-    className="text-xs lg:text-sm uppercase tracking-widest text-obsidian/80 hover:text-obsidian font-medium transition-all duration-300 relative group whitespace-nowrap"
- 
+<Link
+  to="/testimonials"
+  className="text-xs lg:text-sm uppercase tracking-widest text-obsidian/80 hover:text-obsidian font-medium transition-all duration-300 relative group whitespace-nowrap"
+>
     Testimonials
     <span className="absolute -bottom-1 left-0 w-0 h-px bg-crystal transition-all duration-300 group-hover:w-full" />
-   </Link>
+  </Link>
 
   <a
     href="#contact"
