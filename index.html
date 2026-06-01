@@ -34,19 +34,41 @@
     <meta property="og:url" content="https://glassbonescreative.com" />
     <meta property="og:type" content="website" />
 
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Glassbones Creative",
-        "url": "https://glassbonescreative.com",
-        "logo": "https://glassbonescreative.com/Glass.png",
-        "sameAs": [
-          "https://www.instagram.com/glassbonescreatives",
-          "https://www.facebook.com/share/16a7YRxe5R/"
-        ]
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://glassbonescreative.com/#organization",
+      "name": "Glassbones Creative",
+      "url": "https://glassbonescreative.com",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://glassbonescreative.com/#logo",
+        "url": "https://glassbonescreative.com/Glass.png",
+        "contentUrl": "https://glassbonescreative.com/Glass.png",
+        "caption": "Glassbones Creative"
+      },
+      "image": { "@id": "https://glassbonescreative.com/#logo" },
+      "description": "Creative agency specializing in branding, storytelling, translation, theatrical production, subtitling and publishing.",
+      "sameAs": [
+        "https://www.instagram.com/glassbonescreatives",
+        "https://www.facebook.com/share/16a7YRxe5R/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://glassbonescreative.com/#website",
+      "url": "https://glassbonescreative.com",
+      "name": "Glassbones Creative",
+      "publisher": {
+        "@id": "https://glassbonescreative.com/#organization"
       }
-    </script>
+    }
+  ]
+}
+</script>cs
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
