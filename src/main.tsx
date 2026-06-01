@@ -1,14 +1,3 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom/client';
-// import Router from './Router';
-// import './src/index.css'; // or wherever your global CSS import is
-
-// ReactDOM.createRoot(document.getElementById('root')!).render(
-//   <React.StrictMode>
-//     <Router />
-//   </React.StrictMode>
-// );
-
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
