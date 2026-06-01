@@ -29,6 +29,8 @@ dist-ssr
 # Environment variables
 .env
 .env.*
+.env.local
+
 
 # TypeScript cache
 *.tsbuildinfo

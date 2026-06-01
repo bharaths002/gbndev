@@ -289,8 +289,9 @@ const App: React.FC = () => {
 
                 return (
                   <form ref={formRef} onSubmit={handleSubmit} className="reveal [transition-delay:200ms] space-y-4">
-                    <input type="hidden" name="access_key" value="paste-your-key-here" />
+                    <input type="hidden" name="access_key" value= {import.meta.env.VITE_WEB3FORMS_KEY} />
                     <input type="hidden" name="subject" value="New Inquiry — Glassbones Creative " />
+                    <input type="checkbox" name="botcheck" style={{ display: "none" }} />
                     <input type="text" name="name" placeholder="Full Name" required
                       className="bg-white border border-black/10 rounded-xl px-5 py-3 text-sm outline-none focus:border-crystal transition-colors w-full shadow-sm" />
                     <input type="email" name="email" placeholder="Email Address" required
