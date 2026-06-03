@@ -42,9 +42,9 @@ const App: React.FC = () => {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
-           
+
             <div className="flex flex-col justify-center items-center text-center space-y-8 text-left pt-6 lg:pt-0">
-              
+
               <h1 className="text-5xl md:text-7xl xl:text-8xl font-serif leading-tight animate-slide-up">
                 Clarity <br />
                 <span className="italic text-gradient">Refined.</span>
@@ -178,7 +178,7 @@ const App: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-bold mb-4">{feature.title}</h3>
                 <p className="text-obsidian/60 leading-relaxed text-sm mb-6">{feature.description}</p>
-               
+
                 <div className="aspect-video rounded-xl overflow-hidden bg-silver/50 mt-auto">
                   <img
                     src={feature.image}
@@ -270,7 +270,7 @@ const App: React.FC = () => {
                   const data = new FormData(form);
                   data.set("service", selectedService);
                   try {
-                    const response = await fetch("https://api.web3forms.com/submit", {
+                    const response = await fetch("https://formspree.io/f/xvznprve", {
                       method: "POST",
                       body: data,
                       headers: { Accept: "application/json" },
@@ -289,7 +289,6 @@ const App: React.FC = () => {
 
                 return (
                   <form ref={formRef} onSubmit={handleSubmit} className="reveal [transition-delay:200ms] space-y-4">
-                    <input type="hidden" name="access_key" value= {import.meta.env.VITE_WEB3FORMS_KEY} />
                     <input type="hidden" name="subject" value="New Inquiry — Glassbones Creative " />
                     <input type="checkbox" name="botcheck" style={{ display: "none" }} />
                     <input type="text" name="name" placeholder="Full Name" required
@@ -396,37 +395,37 @@ const App: React.FC = () => {
       </section>
 
       {/* Footer */}
-     <footer className="py-12 border-t border-black/5 bg-bone">
-  <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-    
-    {/* Logo */}
-    <div className="text-xl font-serif font-bold tracking-tight">
-      GLASSBONES CREATIVE 
-    </div>
+      <footer className="py-12 border-t border-black/5 bg-bone">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
 
-    {/* Navigation */}
-    <div className="flex gap-10 text-xs uppercase tracking-widest text-obsidian/50">
-      <a
-        href="#services"
-        className="hover:text-obsidian transition-colors duration-300"
-      >
-        Services
-      </a>
-      <a
-        href="#contact"
-        className="hover:text-obsidian transition-colors duration-300"
-      >
-        Contact
-      </a>
-    </div>
+          {/* Logo */}
+          <div className="text-xl font-serif font-bold tracking-tight">
+            GLASSBONES CREATIVE
+          </div>
 
-    {/* Copyright */}
-    <p className="text-xs text-obsidian/30 hover:text-obsidian transition-colors duration-300 uppercase tracking-[0.2em] font-medium md:self-center">
-      &copy; 2026 Glassbones Creative . Built for Clarity.
-    </p>
+          {/* Navigation */}
+          <div className="flex gap-10 text-xs uppercase tracking-widest text-obsidian/50">
+            <a
+              href="#services"
+              className="hover:text-obsidian transition-colors duration-300"
+            >
+              Services
+            </a>
+            <a
+              href="#contact"
+              className="hover:text-obsidian transition-colors duration-300"
+            >
+              Contact
+            </a>
+          </div>
 
-  </div>
-</footer>
+          {/* Copyright */}
+          <p className="text-xs text-obsidian/30 hover:text-obsidian transition-colors duration-300 uppercase tracking-[0.2em] font-medium md:self-center">
+            &copy; 2026 Glassbones Creative . Built for Clarity.
+          </p>
+
+        </div>
+      </footer>
 
 
       {(() => {
