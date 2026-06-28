@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Button from "./components/Button";
 import { FEATURES, LITERARY_PROCESS } from "./constants";
-import homepageImg from "/images/homepage.jpg";
+import homepageImg from "/images/homepage.webp";
 import aboutagencyImg from "/images/aboutagency.avif";
 
 const App: React.FC = () => {
@@ -15,7 +15,7 @@ const App: React.FC = () => {
           }
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0.05 },
     );
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
@@ -34,7 +34,7 @@ const App: React.FC = () => {
       {/* Hero Section */}
       <section
         id="home"
-        className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
+        className="relative min-h-screen flex items-center justify-center pt-10 overflow-hidden"
       >
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/pinstripe-light.png')]"></div>
         <div className="absolute top-1/4 left-10 w-32 h-32 bg-crystal/5 rounded-full blur-3xl animate-pulse"></div>
@@ -50,7 +50,7 @@ const App: React.FC = () => {
                 <span className="italic text-gradient">Refined.</span>
               </h1>
 
-              <div className="space-y-5 animate-slide-up [animation-delay:200ms]">
+              <div className="space-y-5 animate-slide-up [animation-delay:100ms]">
                 <p className="text-xl md:text-2xl font-serif italic text-obsidian/80">
                   We are Glassbones!
                 </p>
@@ -63,7 +63,7 @@ const App: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up [animation-delay:400ms]">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up [animation-delay:200ms]">
                 <Button onClick={() => scrollTo("services")} className="px-10 py-4">
                   Our Services
                 </Button>
@@ -74,7 +74,7 @@ const App: React.FC = () => {
             </div>
 
             {/* RIGHT — Image */}
-            <div className="relative flex items-center justify-center animate-slide-up [animation-delay:300ms]">
+            <div className="relative flex items-center justify-center animate-slide-up [animation-delay:150ms]">
               {/* ✅ CHANGE 3: Image card hover effects on mobile
                   Added `active:[classes]` alongside hover — on mobile, tap activates :active
                   which triggers the same visual effect as hover does on desktop.
